@@ -1,0 +1,109 @@
+<div class="rounded shadow bg-white p-5">
+  <div class="row">
+    <div class="col-12 d-flex">
+      <h2 class="font-weight-light"><i class="fas fa-home"></i>Audio</h2>
+      <button class="btn btn-primary ml-auto" type="button" data-toggle="modal" data-target="#propertiesFormModal" (click)="resetForm()"><i class="fas fa-plus"></i> Ajouter un audio</button>
+    </div>
+  </div>
+  <hr class="mt-1 mb-5 bg-dark">
+  <div class="row">
+    <div *ngFor="let property of properties; let i = index" class="col-12 shadow-sm p-4 mb-3 bg-light">
+      <div class="row">
+        <div class="col-3">
+          <div *ngFor="let audio of property.audios; let first = first">
+            <audio controls="controls">
+              <source [src]="audio" type="audio/mp3" />
+              Votre navigateur n'est pas compatible
+            </audio>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="d-flex">
+            <h3 class="font-weight-normal">{{ property.title }}</h3>
+            <div class="ml-auto">
+              <button class="btn btn-primary m-1" type="button" (click)="onEditProperty(property)"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-danger m-1" type="button" (click)="onDeleteProperty(i)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+          <p>
+            {{ property.category }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="propertiesFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="propertiesForm" (ngSubmit)="onSubmitPropertiesForm()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edition d'un audio</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" placeholder="Titre" class="form-control" formControlName="title">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Catégorie</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" formControlName="category">
+              <option value="Pied">pied</option>
+              <option value="Maison">Maison</option>
+            </select>
+          </div>
+          <div class="row">
+            <div *ngFor="let audio of audiosAdded; let i = index" class="col-4 border border-secondary rounded m-1 p-1 bg-light position-relative">
+              <span class="text-danger position-absolute mr-l deleteaudio" (click)="onRemoveAddedaudio(i)">
+                <i class="fas fa-times"></i>
+              </span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-9">
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="onUploadFile($event)">
+                  <label class="custom-file-label" for="inputGroupFile01">Envoyer une image</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="spinner-border text-primary" *ngIf="audioUploading" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary" type="submit" [disabled]="propertiesForm.invalid">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete property Modal -->
+<div class="modal fade" id="deletePropertyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Supprimer ce bien ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="onConfirmDeleteProperty()">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>

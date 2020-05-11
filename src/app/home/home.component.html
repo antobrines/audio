@@ -1,0 +1,20 @@
+<div class="container">
+  <mat-toolbar color="primary" class="main-toolbar">
+    <span>Audio Player</span>
+  </mat-toolbar>
+  <div class="content">
+      <div class="logo">
+        <mat-icon>music_note</mat-icon>
+        <div>Audio Player</div>
+    </div>
+    <mat-list color="primary">
+      <h3 mat-subheader>Songs</h3>
+      <mat-list-item *ngFor="let property of properties; let i = index" (click)="start(property)">
+        <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+        <h4 mat-line>{{ property.title }}</h4>
+        <h5 mat-line>by {{ property.category }}</h5>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
