@@ -17,4 +17,22 @@
       </mat-list-item>
     </mat-list>
   </div>
+  <div>
+    <mat-toolbar color="primary" >
+      <mat-toolbar-row class="media-action-bar">
+        <button mat-button (click)="prev()">
+          <mat-icon mat-list-icon>skip_previous</mat-icon>
+        </button>
+        <button mat-button *ngIf="!isPlaying" (click)="togglePlayer(false)">
+          <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+        </button>
+        <button mat-button >
+          <mat-icon mat-list-icon *ngIf="isPlaying" (click)="togglePlayer(true)">pause</mat-icon>
+        </button>
+        <button  mat-button >
+          <mat-icon mat-list-icon (click)="next()">skip_next</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
 </div>

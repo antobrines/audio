@@ -73,6 +73,7 @@ export class AdminPropertiesComponent implements OnInit {
     this.propertiesForm = this.formBuilder.group({
       title: ['', Validators.required],
       category: ['', Validators.required],
+      path: ['', Validators.required],
     });
   }
   /**
@@ -125,6 +126,7 @@ export class AdminPropertiesComponent implements OnInit {
     $('#propertiesFormModal').modal('show');
     this.propertiesForm.get('title').setValue(property.title);
     this.propertiesForm.get('category').setValue(property.category);
+    this.propertiesForm.get('path').setValue(property.path);
     this.audiosAdded = property.audios ? property.audios : [];
     const index = this.properties.findIndex(
       (propertyEl) => {

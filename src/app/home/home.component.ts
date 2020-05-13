@@ -24,16 +24,54 @@ export class HomeComponent implements OnInit, OnDestroy {
 
    player: Howl = null;
    activeTrack: Property = null;
+   isPlaying = false;
 
   constructor(
     private propertiesService: PropertiesService
   ) { }
 
   start(track: Property) {
+    if (this.player) {
+      this.player.stop();
+    }
     this.player = new Howl({
-      src: [track.audios[0]]
+      src: [track.path],
+      onplay: () => {
+        this.isPlaying = true;
+        this.activeTrack = track;
+      },
+      onend: () => {
+        console.log('POG');
+      }
     });
     this.player.play();
+  }
+
+  togglePlayer(pause){
+    this.isPlaying = !pause;
+    if (pause) {
+      this.player.pause();
+    } else {
+      this.player.play();
+    }
+  }
+
+  next() {
+    let index = this.properties.indexOf(this.activeTrack);
+    if (index !== this.properties.length - 1) {
+      this.start(this.properties[index + 1]);
+    } else {
+      this.start(this.properties[0]);
+    }
+  }
+
+  prev() {
+    let index = this.properties.indexOf(this.activeTrack);
+    if (index > 0) {
+      this.start(this.properties[index - 1]);
+    } else {
+      this.start(this.properties[this.properties.length - 1]);
+    }
   }
   /**
    * Récupère toutes les properties de la base de donné.
